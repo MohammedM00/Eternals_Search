@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Eternals Characters with Skill</title>
+  <style>
+    /* Add CSS styles to control image size */
+    img.medium {
+      width: 200px; /* Adjust the width as needed */
+      height: auto; /* Auto height to maintain aspect ratio */
+    }
+  </style>
+</head>
+<body>
+  <h1>Eternals Characters with Skill</h1>
+
+  <label for="attributeSelect">Select Attribute: </label>
+  <select id="attributeSelect">
+    <option value="flight">Flight</option>
+    <option value="cosmic energy manipulation">Cosmic Energy Manipulation</option>
+    <option value="superhuman strength">Superhuman Strength</option>
+    <option value="sword">Sword</option>
+    <option value="languages">Languages</option>
+    <option value="matter transmutation">Matter Transmutation</option>
+    <option value="healing">Healing</option>
+    <option value="persuasion">Persuasion</option>
+    <option value="energy blast projection">Energy Blast Projection</option>
+    <option value="hand-to-hand combat">Hand-to-Hand Combat</option>
+    <option value="speed">Speed</option>
+    <option value="strategy">Strategy</option>
+  </select>
+  <button type="button" id="search">Search</button>
+
+  <div id="results"></div>
+
+  <script>
+    // Add an object property for the image URL of each Eternal
+    const eternals = [
+      {
+        name: "Ikaris",
+        attributes: ["flight", "cosmic energy manipulation", "superhuman strength"],
+        skills: ["sword", "languages"],
+        imageURL: "Ikaris.jpg",
+      },
+      {
+        name: "Sersi",
+        attributes: ["matter transmutation", "cosmic energy manipulation", "healing"],
+        skills: ["sword", "persuasion"],
+        imageURL: "Sersi.jpg",
+      },
+      {
+        name: "Kingo",
+        attributes: ["cosmic energy manipulation", "superhuman strength", "energy blast projection"],
+        skills: ["sword", "acting"],
+        imageURL: "Kingo.jpg",
+      },
+      {
+        name: "Gilgamesh",
+        attributes: ["superhuman strength", "durability", "cosmic energy manipulation"],
+        skills: ["sword", "hand-to-hand combat"],
+        imageURL: "Gilgamesh.jpg",
+      },
+      {
+        name: "Thena",
+        attributes: ["superhuman strength", "speed", "cosmic energy manipulation"],
+        skills: ["sword", "strategy"],
+        imageURL: "Thena.jpg",
+      },
+    ];
+
+    // Function to find the Eternals characters with a given attribute
+    function findEternalsWithAttribute(attribute) {
+      return eternals.filter((eternal) =>
+        eternal.attributes.includes(attribute) || eternal.skills.includes(attribute)
+      );
+      
+    }
+
+    // Get the user's input for the attribute to search for
+    const attributeSelect = document.querySelector("#attributeSelect");
+    const searchButton = document.querySelector("#search");
+    const resultsDiv = document.querySelector("#results");
+
+    // Search for the Eternals characters with the selected attribute when the user clicks the search button
+    searchButton.addEventListener("click", () => {
+      const attributeToSearchFor = attributeSelect.value;
+
+      // Find the Eternals characters with the given attribute
+      const matchingEternals = findEternalsWithAttribute(attributeToSearchFor);
+
+      // Display the results to the user
+      resultsDiv.innerHTML = "";
+
+      if (matchingEternals.length > 0) {
+        const resultHeading = document.createElement("h2");
+        resultHeading.textContent = "Characters with the attribute: " + attributeToSearchFor;
+        resultsDiv.appendChild(resultHeading);
+
+        const resultList = document.createElement("ul");
+
+        matchingEternals.forEach((eternal) => {
+          const listItem = document.createElement("li");
+
+          // Create an image element and set its src attribute to the image URL of the Eternal
+          const image = document.createElement("img");
+          image.src = eternal.imageURL;
+          image.alt = eternal.name;
+          image.classList.add("medium"); // Apply the "medium" class for image size
+
+          // Create a div to display the details
+          const details = document.createElement("div");
+          details.innerHTML = `
+            <h3>${eternal.name}</h3>
+            <p>Attributes: ${eternal.attributes.join(", ")}</p>
+            <p>Skills: ${eternal.skills.join(", ")}</p>
+          `;
+
+          // Append the image and details to the list item
+          listItem.appendChild(image);
+          listItem.appendChild(details);
+
+          // Append the list item to the result list
+          resultList.appendChild(listItem);
+        });
+
+        // Append the result list to the results div
+        resultsDiv.appendChild(resultList);
+      } else {
+        const noResultsMessage = document.createElement("p");
+        noResultsMessage.textContent = "No Eternals characters have the attribute \"" + attributeToSearchFor + "\".";
+        resultsDiv.appendChild(noResultsMessage);
+      }
+    });
+  </script>
+</body>
+</html>
